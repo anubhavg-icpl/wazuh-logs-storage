@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
+                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Wazuh Statistics Index"
+              "title": "Wazuh Monitoring Indices"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
+                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Wazuh Statistics Index"
+              "title": "Backlinks for Wazuh Monitoring Indices"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
+                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Wazuh Statistics Index"
+              "title": "Outgoing links from Wazuh Monitoring Indices"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
+                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Wazuh Statistics Index"
+              "title": "Outline of Wazuh Monitoring Indices"
             }
           }
         ]
@@ -170,7 +170,9 @@
   },
   "active": "8143ffd391e3db85",
   "lastOpenFiles": [
+    "logs/wazuh-alerts-archives/Wazuh Alert and Archive Logs.md",
     "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
+    "logs/wazuh-statistics/Wazuh Statistics Index.md",
     "logs-management/indices-management",
     "logs-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
     "logs-management/Managing Wazuh Alert Indices in Elasticsearch /Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
@@ -179,8 +181,6 @@
     "logs-management",
     "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
     "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
-    "logs/wazuh-alerts-archives/Wazuh Alert and Archive Logs.md",
-    "logs/wazuh-statistics/Wazuh Statistics Index.md",
     "README.md",
     "Log Rotation.md",
     "logs/wazuh-states-vulnerabilities",
