@@ -7,48 +7,83 @@
   "showOrphans": true,
   "collapse-color-groups": false,
   "colorGroups": [
-    {
-      "query": "path:logs/wazuh-alerts-archives",
-      "color": {
-        "a": 1,
-        "rgb": 14701138
-      }
-    },
-    {
-      "query": "path:logs/wazuh-statistics",
-      "color": {
-        "a": 1,
-        "rgb": 14725458
-      }
-    },
-    {
-      "query": "path:logs/wazuh-monitoring",
-      "color": {
-        "a": 1,
-        "rgb": 5431473
-      }
-    },
-    {
-      "query": "path:logs/wazuh-states-vulnerabilities",
-      "color": {
-        "a": 1,
-        "rgb": 5431378
-      }
-    },
-    {
-      "query": "tag:#security",
-      "color": {
-        "a": 1,
-        "rgb": 16711680
-      }
-    },
-    {
-      "query": "tag:#wazuh",
-      "color": {
-        "a": 1,
-        "rgb": 5395168
-      }
+   {
+    "query": "path:logs/wazuh-alerts-archives",
+    "color": {
+     "a": 1,
+     "rgb": 15879680
     }
+   },
+   {
+    "query": "path:logs/wazuh-statistics",
+    "color": {
+     "a": 1,
+     "rgb": 16750848
+    }
+   },
+   {
+    "query": "path:logs/wazuh-monitoring",
+    "color": {
+     "a": 1,
+     "rgb": 5374097
+    }
+   },
+   {
+    "query": "path:logs/wazuh-states-vulnerabilities",
+    "color": {
+     "a": 1,
+     "rgb": 3120575
+    }
+   },
+   {
+    "query": "tag:#security",
+    "color": {
+     "a": 1,
+     "rgb": 16711680
+    }
+   },
+   {
+    "query": "tag:#wazuh",
+    "color": {
+     "a": 1,
+     "rgb": 7512015
+    }
+   },
+   {
+    "query": "path:logs-management",
+    "color": {
+     "a": 1,
+     "rgb": 16744192
+    }
+   },
+   {
+    "query": "path:indices-management",
+    "color": {
+     "a": 1,
+     "rgb": 8506240
+    }
+   },
+   {
+    "query": "file:README",
+    "color": {
+     "a": 1,
+     "rgb": 16711935
+    }
+   },
+   {
+    "query": "path:wazuh-logs",
+    "color": {
+     "a": 1,
+     "rgb": 65535
+    }
+   },
+   {
+    "query": "path:wazuh-logs-storage",
+    "color": {
+     "a": 1,
+     "rgb": 65280
+    }
+   }
   ],
   "collapse-display": false,
   "showArrow": true,
@@ -61,5 +96,12 @@
   "linkStrength": 1,
   "linkDistance": 250,
   "scale": 0.9096037015936712,
-  "close": false
-}
+  "close": false,
+  "animate": 1.2,
+  "fps": 60,
+  "particleCount": 2000,
+  "particleSize": 6,
+  "particleAcceleration": 0.75,
+  "particleDamping": 0.9,
+  "autoHide": false
+ }
