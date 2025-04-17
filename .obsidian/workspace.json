@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Wazuh Monitoring Indices"
+              "title": "Wazuh Vulnerability States Indices"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Wazuh Monitoring Indices"
+              "title": "Backlinks for Wazuh Vulnerability States Indices"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Wazuh Monitoring Indices"
+              "title": "Outgoing links from Wazuh Vulnerability States Indices"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Wazuh Monitoring Indices"
+              "title": "Outline of Wazuh Vulnerability States Indices"
             }
           }
         ]
@@ -170,6 +170,7 @@
   },
   "active": "8143ffd391e3db85",
   "lastOpenFiles": [
+    "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
     "logs/wazuh-alerts-archives/Wazuh Alert and Archive Logs.md",
     "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
     "logs/wazuh-statistics/Wazuh Statistics Index.md",
@@ -180,7 +181,6 @@
     "logs-management/Managing Wazuh Alert Indices in Elasticsearch ",
     "logs-management",
     "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
-    "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
     "README.md",
     "Log Rotation.md",
     "logs/wazuh-states-vulnerabilities",

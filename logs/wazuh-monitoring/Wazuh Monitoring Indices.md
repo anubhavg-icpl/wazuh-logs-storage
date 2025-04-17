@@ -1,32 +1,50 @@
+---
+title: Wazuh Monitoring Indices - Technical Architecture & Workflow
+date: 2025-04-17
+tags:
+  - wazuh
+  - agent-monitoring
+  - elasticsearch
+  - security-operations
+  - monitoring
+  - agent-status
+  - infrastructure
+aliases:
+  - Wazuh Agent Monitoring
+  - Agent Status Tracking
+cssclass: technical-documentation
+---
+
 # Wazuh Monitoring Indices: Technical Architecture & Workflow
 
 ## Executive Summary
 
-This technical document provides a comprehensive analysis of the `wazuh-monitoring-*` index pattern within the Wazuh security platform. This index pattern is critical for tracking and storing agent connection status information, enabling administrators to maintain visibility into the health and availability of their security monitoring infrastructure. The document details the architecture, data flow, schema structure, and operational considerations for effectively managing agent status monitoring in enterprise Wazuh deployments.
-
-Understanding the `wazuh-monitoring-*` index pattern is essential for security operations teams to ensure continuous coverage, quickly identify disconnected agents, and maintain the integrity of their security monitoring footprint. This document serves as a technical reference for security architects, administrators, and analysts responsible for Wazuh infrastructure in corporate environments.
+> [!SUMMARY]
+> This technical document provides a comprehensive analysis of the `wazuh-monitoring-*` index pattern within the [[Wazuh]] security platform. This index pattern is critical for tracking and storing agent connection status information, enabling administrators to maintain visibility into the health and availability of their security monitoring infrastructure. The document details the architecture, data flow, schema structure, and operational considerations for effectively managing agent status monitoring in enterprise Wazuh deployments.
+>
+> Understanding the `wazuh-monitoring-*` index pattern is essential for security operations teams to ensure continuous coverage, quickly identify disconnected agents, and maintain the integrity of their security monitoring footprint. This document serves as a technical reference for security architects, administrators, and analysts responsible for Wazuh infrastructure in corporate environments.
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Monitoring Index Overview](#monitoring-index-overview)
-3. [System Architecture](#system-architecture)
-4. [Agent Status Monitoring Workflow](#agent-status-monitoring-workflow)
-5. [Index Structure & Schema](#index-structure--schema)
-6. [Configuration Options](#configuration-options)
-7. [Storage & Retention Considerations](#storage--retention-considerations)
-8. [Security Implications](#security-implications)
-9. [Performance Optimization](#performance-optimization)
-10. [Use Cases & Visualizations](#use-cases--visualizations)
-11. [Troubleshooting Guide](#troubleshooting-guide)
-12. [Conclusion](#conclusion)
-13. [References](#references)
+1. [[#Introduction]]
+2. [[#Monitoring Index Overview]]
+3. [[#System Architecture]]
+4. [[#Agent Status Monitoring Workflow]]
+5. [[#Index Structure & Schema]]
+6. [[#Configuration Options]]
+7. [[#Storage & Retention Considerations]]
+8. [[#Security Implications]]
+9. [[#Performance Optimization]]
+10. [[#Use Cases & Visualizations]]
+11. [[#Troubleshooting Guide]]
+12. [[#Conclusion]]
+13. [[#References]]
 
 ## Introduction
 
-Agent monitoring is a critical component of any distributed security monitoring platform. In Wazuh, the health and connectivity status of agents deployed throughout the infrastructure must be continuously tracked to ensure comprehensive security coverage. The `wazuh-monitoring-*` index pattern fulfills this essential requirement by storing historical data about agent connection states.
+Agent monitoring is a critical component of any distributed security monitoring platform. In [[Wazuh]], the health and connectivity status of agents deployed throughout the infrastructure must be continuously tracked to ensure comprehensive security coverage. The `wazuh-monitoring-*` index pattern fulfills this essential requirement by storing historical data about agent connection states.
 
-Unlike event or alert indices that store security-related content, the monitoring indices focus exclusively on the operational status of the Wazuh agents themselves. This separation of concerns allows Wazuh to provide robust agent management capabilities while maintaining efficient storage and retrieval of security events.
+Unlike [[Wazuh Alert Indices|event or alert indices]] that store security-related content, the monitoring indices focus exclusively on the operational status of the [[Wazuh Agent|Wazuh agents]] themselves. This separation of concerns allows Wazuh to provide robust agent management capabilities while maintaining efficient storage and retrieval of security events.
 
 This document explores the technical architecture behind the `wazuh-monitoring-*` index pattern, providing security professionals with detailed insights into how Wazuh tracks agent status throughout the agent lifecycle.
 
@@ -63,11 +81,11 @@ graph TD
 
 ### Key Characteristics
 
-1. **Purpose**: Tracks the connection status of Wazuh agents over time, providing visibility into agent availability and health.
+1. **Purpose**: Tracks the connection status of [[Wazuh Agent|Wazuh agents]] over time, providing visibility into agent availability and health.
 
 2. **Data Collection**: By default, agent status information is collected and indexed every 15 minutes.
 
-3. **Index Rotation**: The Wazuh indexer creates weekly indices by default, following the naming convention `wazuh-monitoring-YYYY.WWw` (e.g., `wazuh-monitoring-2025.16w` for the 16th week of 2025).
+3. **Index Rotation**: The [[Wazuh Indexer]] creates weekly indices by default, following the naming convention `wazuh-monitoring-YYYY.WWw` (e.g., `wazuh-monitoring-2025.16w` for the 16th week of 2025).
 
 4. **Agent States**: The index stores one of four possible connection states for each agent:
    - **Active**: Agent is properly connected and sending data
@@ -75,7 +93,7 @@ graph TD
    - **Pending**: Agent has been registered but has not yet connected
    - **Never connected**: Agent has been registered but has never established a connection
 
-5. **Dashboard Integration**: The Wazuh dashboard uses these indices to provide agent status visualizations in the Agents Management section.
+5. **Dashboard Integration**: The [[Wazuh Dashboard]] uses these indices to provide agent status visualizations in the Agents Management section.
 
 ## System Architecture
 
@@ -150,26 +168,26 @@ flowchart TB
 
 ### Key Components
 
-1. **Wazuh Agents**: Deployed on endpoints to collect security data and report status
-   - **Agent Daemon (ossec-agentd)**: Main process that manages agent operations
-   - **Keepalive Mechanism**: Sends periodic heartbeat messages to the manager
+1. **[[Wazuh Agent|Wazuh Agents]]**: Deployed on endpoints to collect security data and report status
+   - **Agent Daemon ([[ossec-agentd]])**: Main process that manages agent operations
+   - **[[Keepalive Mechanism]]**: Sends periodic heartbeat messages to the manager
 
-2. **Wazuh Manager**: Central server that tracks agent connections
-   - **Remote Service (ossec-remoted)**: Receives agent communications including keepalives
-   - **Agent Database (wazuh-db)**: Stores agent information including status
-   - **API Service**: Provides endpoints to query agent status information
+2. **[[Wazuh Manager]]**: Central server that tracks agent connections
+   - **Remote Service ([[ossec-remoted]])**: Receives agent communications including keepalives
+   - **Agent Database ([[wazuh-db]])**: Stores agent information including status
+   - **[[Wazuh API]]**: Provides endpoints to query agent status information
    - **Internal Database**: SQLite databases storing agent data
 
-3. **Wazuh Dashboard**: Responsible for collecting and visualizing agent status
+3. **[[Wazuh Dashboard]]**: Responsible for collecting and visualizing agent status
    - **Monitoring Job**: Scheduled task that polls the Wazuh API for agent status
    - **Dashboard Backend**: Processes and formats status data for indexing
    - **Agent Management Interface**: Visualizes agent status information
 
-4. **Wazuh Indexer**: Stores agent status data in searchable indices
+4. **[[Wazuh Indexer]]**: Stores agent status data in searchable indices
    - **Ingestion Pipeline**: Processes incoming agent status documents
    - **Index Template**: Defines mapping for monitoring fields
    - **wazuh-monitoring-\***: Stores agent status snapshots
-   - **ILM Policy**: Manages monitoring index lifecycle
+   - **[[ILM Policy]]**: Manages monitoring index lifecycle
 
 ## Agent Status Monitoring Workflow
 
@@ -249,13 +267,14 @@ The `wazuh-monitoring-*` indices follow a structured schema defined by the Wazuh
 
 ### Index Naming Convention
 
-```
-wazuh-monitoring-YYYY.WWw
-```
-
-Examples:
-- `wazuh-monitoring-2025.16w` (16th week of 2025)
-- `wazuh-monitoring-2025.17w` (17th week of 2025)
+> [!INFO]
+> ```
+> wazuh-monitoring-YYYY.WWw
+> ```
+>
+> Examples:
+> - `wazuh-monitoring-2025.16w` (16th week of 2025)
+> - `wazuh-monitoring-2025.17w` (17th week of 2025)
 
 ### Document Schema
 
@@ -283,29 +302,30 @@ The monitoring index documents contain fields that provide detailed information 
 
 ### Sample Document
 
-```json
-{
-  "@timestamp": "2025-04-17T12:00:00.000Z",
-  "id": "001",
-  "name": "web-server-01",
-  "ip": "10.0.1.15",
-  "status": "Active",
-  "dateAdd": "2024-12-01T09:23:45.123Z",
-  "version": "4.4.0",
-  "manager": "wazuh-manager",
-  "os": {
-    "name": "Ubuntu",
-    "version": "22.04.2 LTS",
-    "arch": "x86_64"
-  },
-  "lastKeepAlive": "2025-04-17T11:59:05.432Z",
-  "group": ["linux", "web-servers"],
-  "mergedSum": "84a7c64f35f35fdb2d42c4a6983c43b1",
-  "configSum": "f7c0b13a6b2a606ff9e2e4933d9d2a45",
-  "node_name": "master-node",
-  "registerIP": "10.0.1.15"
-}
-```
+> [!EXAMPLE] Monitoring Document
+> ```json
+> {
+>   "@timestamp": "2025-04-17T12:00:00.000Z",
+>   "id": "001",
+>   "name": "web-server-01",
+>   "ip": "10.0.1.15",
+>   "status": "Active",
+>   "dateAdd": "2024-12-01T09:23:45.123Z",
+>   "version": "4.4.0",
+>   "manager": "wazuh-manager",
+>   "os": {
+>     "name": "Ubuntu",
+>     "version": "22.04.2 LTS",
+>     "arch": "x86_64"
+>   },
+>   "lastKeepAlive": "2025-04-17T11:59:05.432Z",
+>   "group": ["linux", "web-servers"],
+>   "mergedSum": "84a7c64f35f35fdb2d42c4a6983c43b1",
+>   "configSum": "f7c0b13a6b2a606ff9e2e4933d9d2a45",
+>   "node_name": "master-node",
+>   "registerIP": "10.0.1.15"
+> }
+> ```
 
 ## Configuration Options
 
@@ -313,29 +333,30 @@ The behavior of the agent monitoring system and the `wazuh-monitoring-*` indices
 
 ### Dashboard Configuration
 
-The monitoring task is configured in the Wazuh dashboard's configuration file (`/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml`):
-
-```yaml
-# Agent monitoring
-cron:
-  monitoring:
-    # Enable/disable the agent monitoring task
-    status: true
-
-    # Frequency of agent status collection (cron format)
-    # Default: every 15 minutes
-    frequency: '0 */15 * * * *'
-
-    # Index pattern creation interval
-    # Options: daily (d), weekly (w), monthly (m)
-    index:
-      creation: 'w'
-
-    # Index storage settings
-    index:
-      shards: 2
-      replicas: 0
-```
+> [!NOTE]
+> The monitoring task is configured in the Wazuh dashboard's configuration file (`/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml`):
+>
+> ```yaml
+> # Agent monitoring
+> cron:
+>   monitoring:
+>     # Enable/disable the agent monitoring task
+>     status: true
+>
+>     # Frequency of agent status collection (cron format)
+>     # Default: every 15 minutes
+>     frequency: '0 */15 * * * *'
+>
+>     # Index pattern creation interval
+>     # Options: daily (d), weekly (w), monthly (m)
+>     index:
+>       creation: 'w'
+>
+>     # Index storage settings
+>     index:
+>       shards: 2
+>       replicas: 0
+> ```
 
 ### Important Configuration Parameters
 
@@ -361,19 +382,20 @@ cron:
 
 ### Agent Connection Configuration
 
-The agent connection parameters that affect status determination are configured in the manager's `ossec.conf`:
-
-```xml
-<ossec_config>
-  <global>
-    <!-- Disconnection timeout in seconds (10 minutes default) -->
-    <agent_disconnection_time>600</agent_disconnection_time>
-
-    <!-- Time to mark an agent as 'Never connected' (1 hour default) -->
-    <agent_connection_time>3600</agent_connection_time>
-  </global>
-</ossec_config>
-```
+> [!INFO]
+> The agent connection parameters that affect status determination are configured in the manager's `ossec.conf`:
+>
+> ```xml
+> <ossec_config>
+>   <global>
+>     <!-- Disconnection timeout in seconds (10 minutes default) -->
+>     <agent_disconnection_time>600</agent_disconnection_time>
+>
+>     <!-- Time to mark an agent as 'Never connected' (1 hour default) -->
+>     <agent_connection_time>3600</agent_connection_time>
+>   </global>
+> </ossec_config>
+> ```
 
 ## Storage & Retention Considerations
 
@@ -393,18 +415,19 @@ Storage requirements for the `wazuh-monitoring-*` indices depend on several fact
 
 #### Typical Storage Calculations
 
-For a deployment with:
-- 100 agents
-- 15-minute collection interval
-- ~1KB per document
-- Weekly index rotation
-- 30-day retention
-
-Approximate storage:
-- Documents per day: 100 agents × 24 hours × 4 collections/hour = 9,600 documents
-- Storage per day: 9,600 documents × 1KB = ~9.6MB
-- Storage per week: ~67MB
-- Storage per month: ~288MB
+> [!EXAMPLE] Storage Calculation
+> For a deployment with:
+> - 100 agents
+> - 15-minute collection interval
+> - ~1KB per document
+> - Weekly index rotation
+> - 30-day retention
+>
+> Approximate storage:
+> - Documents per day: 100 agents × 24 hours × 4 collections/hour = 9,600 documents
+> - Storage per day: 9,600 documents × 1KB = ~9.6MB
+> - Storage per week: ~67MB
+> - Storage per month: ~288MB
 
 ### Retention Strategies
 
@@ -433,15 +456,15 @@ graph TD
     class B1,B2,C1,C2,D1,D2 tertiary
 ```
 
-1. **Index Lifecycle Management (ILM)**:
+1. **[[Index Lifecycle Management|Index Lifecycle Management (ILM)]]**:
    - Define policies to automatically manage monitoring indices
    - Typical policy for monitoring indices:
      - Hot phase: 0-7 days (active querying)
      - Delete phase: >7 days (remove old indices)
-   - Configure via Elasticsearch/OpenSearch ILM APIs
+   - Configure via [[Elasticsearch]]/[[OpenSearch]] ILM APIs
 
 2. **Manual Index Management**:
-   - Use Curator tool or scripts to delete old indices
+   - Use [[Curator Tool]] or scripts to delete old indices
    - API-based deletion of indices older than a certain date
    - Example API call:
      ```
@@ -456,7 +479,8 @@ graph TD
 
 ## Security Implications
 
-The `wazuh-monitoring-*` indices contain valuable information about the security monitoring infrastructure that requires appropriate protection.
+> [!WARNING]
+> The `wazuh-monitoring-*` indices contain valuable information about the security monitoring infrastructure that requires appropriate protection.
 
 ### Threat Model
 
@@ -495,7 +519,7 @@ graph TD
    - Agent status changes could reveal security operations activity
 
 2. **Access Control Recommendations**:
-   - Implement role-based access control for monitoring indices
+   - Implement [[Role-Based Access Control|role-based access control]] for monitoring indices
    - Restrict read access to security personnel only
    - Example Elasticsearch role:
      ```json
@@ -510,8 +534,8 @@ graph TD
      ```
 
 3. **Data Protection**:
-   - Enable TLS encryption for all indexer communications
-   - Consider encryption at rest for sensitive indices
+   - Enable [[TLS]] encryption for all indexer communications
+   - Consider [[Encryption at Rest|encryption at rest]] for sensitive indices
    - Implement network segmentation for indexer cluster
 
 4. **Operational Security**:
@@ -554,6 +578,9 @@ graph TB
 ```
 
 ### Optimization Recommendations
+
+> [!TIP]
+> Apply these optimization strategies based on your environment size:
 
 1. **Collection Frequency Tuning**:
    - Default (15 minutes) is suitable for most deployments
@@ -648,20 +675,20 @@ graph TD
 
 ### Sample Dashboard Queries
 
-1. **Recently Disconnected Agents**:
-   ```
-   status:Disconnected AND @timestamp:[now-24h TO now]
-   ```
+> [!EXAMPLE] Recently Disconnected Agents
+> ```
+> status:Disconnected AND @timestamp:[now-24h TO now]
+> ```
 
-2. **Agents Never Connected**:
-   ```
-   status:"Never connected" AND dateAdd:[now-7d TO now]
-   ```
+> [!EXAMPLE] Agents Never Connected
+> ```
+> status:"Never connected" AND dateAdd:[now-7d TO now]
+> ```
 
-3. **Agents by Operating System**:
-   ```
-   status:Active AND os.name:*
-   ```
+> [!EXAMPLE] Agents by Operating System
+> ```
+> status:Active AND os.name:*
+> ```
 
 ## Troubleshooting Guide
 
@@ -669,75 +696,94 @@ graph TD
 
 #### Missing Agent Status Data
 
-```
-Symptom: Agent status not updating in dashboard or "No results found" in monitoring view
-
-Troubleshooting Steps:
-1. Check monitoring task status:
-   $ grep -A 10 "monitoring" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
-
-2. Verify index exists:
-   $ curl -k -u <username>:<password> "https://localhost:9200/_cat/indices/wazuh-monitoring-*?v"
-
-3. Check dashboard logs for monitoring task errors:
-   $ tail -f /var/log/wazuh-dashboard/opensearch-dashboards.log | grep monitoring
-
-4. Verify API connectivity:
-   $ curl -k -u <username>:<password> "https://localhost:55000/agents?limit=1"
-
-Solutions:
-- Enable monitoring task (cron.monitoring.status: true)
-- Restart dashboard service
-- Check API credentials and connectivity
-- Verify manager is correctly tracking agent status
-```
+> [!FAILURE]
+> **Symptom**: Agent status not updating in dashboard or "No results found" in monitoring view
+>
+> **Troubleshooting Steps**:
+> 1. Check monitoring task status:
+>    ```bash
+>    $ grep -A 10 "monitoring" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
+>    ```
+>
+> 2. Verify index exists:
+>    ```bash
+>    $ curl -k -u <username>:<password> "https://localhost:9200/_cat/indices/wazuh-monitoring-*?v"
+>    ```
+>
+> 3. Check dashboard logs for monitoring task errors:
+>    ```bash
+>    $ tail -f /var/log/wazuh-dashboard/opensearch-dashboards.log | grep monitoring
+>    ```
+>
+> 4. Verify API connectivity:
+>    ```bash
+>    $ curl -k -u <username>:<password> "https://localhost:55000/agents?limit=1"
+>    ```
+>
+> **Solutions**:
+> - Enable monitoring task (cron.monitoring.status: true)
+> - Restart dashboard service
+> - Check API credentials and connectivity
+> - Verify manager is correctly tracking agent status
 
 #### Incorrect Agent Status
 
-```
-Symptom: Agent shows incorrect status (e.g., "Active" when actually disconnected)
-
-Troubleshooting Steps:
-1. Check agent keepalive settings in ossec.conf:
-   $ grep "<keepalive>" /var/ossec/etc/ossec.conf
-
-2. Verify agent_disconnection_time setting:
-   $ grep "agent_disconnection_time" /var/ossec/etc/ossec.conf
-
-3. Check agent connection directly via API:
-   $ curl -k -u <username>:<password> "https://localhost:55000/agents/<agent_id>"
-
-4. Examine agent logs for connectivity issues:
-   $ tail -f /var/ossec/logs/ossec.log | grep "Agent connection"
-
-Solutions:
-- Adjust agent_disconnection_time if needed
-- Restart agent to re-establish connection
-- Check network connectivity between agent and manager
-- Verify time synchronization across infrastructure
-```
+> [!FAILURE]
+> **Symptom**: Agent shows incorrect status (e.g., "Active" when actually disconnected)
+>
+> **Troubleshooting Steps**:
+> 1. Check agent keepalive settings in ossec.conf:
+>    ```bash
+>    $ grep "<keepalive>" /var/ossec/etc/ossec.conf
+>    ```
+>
+> 2. Verify agent_disconnection_time setting:
+>    ```bash
+>    $ grep "agent_disconnection_time" /var/ossec/etc/ossec.conf
+>    ```
+>
+> 3. Check agent connection directly via API:
+>    ```bash
+>    $ curl -k -u <username>:<password> "https://localhost:55000/agents/<agent_id>"
+>    ```
+>
+> 4. Examine agent logs for connectivity issues:
+>    ```bash
+>    $ tail -f /var/ossec/logs/ossec.log | grep "Agent connection"
+>    ```
+>
+> **Solutions**:
+> - Adjust agent_disconnection_time if needed
+> - Restart agent to re-establish connection
+> - Check network connectivity between agent and manager
+> - Verify time synchronization across infrastructure
 
 #### Performance Issues
 
-```
-Symptom: Slow agent status dashboard loading or high resource usage during monitoring
-
-Troubleshooting Steps:
-1. Check index size and document count:
-   $ curl -k -u <username>:<password> "https://localhost:9200/_cat/indices/wazuh-monitoring-*?v&h=index,docs.count,store.size"
-
-2. Review monitoring collection frequency:
-   $ grep "frequency" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
-
-3. Check indexer performance metrics:
-   $ curl -k -u <username>:<password> "https://localhost:9200/_nodes/stats"
-
-Solutions:
-- Reduce monitoring collection frequency (e.g., from 15 to 30 minutes)
-- Implement index lifecycle management policies
-- Optimize shard count based on cluster size
-- Increase refresh interval for monitoring indices
-```
+> [!FAILURE]
+> **Symptom**: Slow agent status dashboard loading or high resource usage during monitoring
+>
+> **Troubleshooting Steps**:
+> 1. Check index size and document count:
+>    ```bash
+>    $ curl -k -u <username>:<password> "https://localhost:9200/_cat/indices/wazuh-monitoring-*?v&h=index,docs.count,store.size"
+>    ```
+>
+> 2. Review monitoring collection frequency:
+>    ```bash
+>    $ grep "frequency" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
+>    ```
+>
+> 3. Check indexer performance metrics:
+>    ```bash
+>    $ curl -k -u <username>:<password> "https://localhost:9200/_nodes/stats"
+>    ```
+>
+> **Solutions**:
+> - Reduce monitoring collection frequency (e.g., from 15 to 30 minutes)
+> - Implement [[Index Lifecycle Management|index lifecycle management]] policies
+> - Optimize shard count based on cluster size
+> - Increase refresh interval for monitoring indices
 
 ## Conclusion
 
@@ -750,14 +796,16 @@ The `wazuh-monitoring-*` index pattern is a critical component of the Wazuh secu
 
 For enterprise deployments, proper management of the monitoring indices is essential for operational efficiency and security visibility. By following the architectural principles, configuration recommendations, and optimization strategies outlined in this document, organizations can effectively maintain visibility into their agent fleet while minimizing resource utilization.
 
-The monitoring indices complement the other Wazuh index patterns (alerts, archives, statistics, and vulnerabilities) to provide a comprehensive security monitoring solution. While alerts and archives focus on security events, the monitoring indices ensure that the security monitoring infrastructure itself remains healthy and operational.
+The monitoring indices complement the other Wazuh index patterns ([[Wazuh Alert Indices|alerts]], [[Wazuh Archive Indices|archives]], [[Wazuh Statistics Indices|statistics]], and [[Wazuh Vulnerability Indices|vulnerabilities]]) to provide a comprehensive security monitoring solution. While alerts and archives focus on security events, the monitoring indices ensure that the security monitoring infrastructure itself remains healthy and operational.
 
 ## References
 
-1. [Wazuh Documentation - Wazuh Indexer Indices](https://documentation.wazuh.com/current/user-manual/elasticsearch/indices.html)
-2. [Wazuh Documentation - Agent Enrollment and Connection](https://documentation.wazuh.com/current/user-manual/agents/agent-enrollment.html)
-3. [Wazuh Documentation - Dashboard Configuration](https://documentation.wazuh.com/current/user-manual/wazuh-dashboard/config-file.html)
-4. [Elasticsearch Documentation - Index Lifecycle Management](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html)
-5. [Wazuh Documentation - Agent Monitoring API](https://documentation.wazuh.com/current/user-manual/api/reference.html#agents)
-6. [Wazuh Documentation - Agent Management Interface](https://documentation.wazuh.com/current/user-manual/wazuh-dashboard/agents.html)
-7. [Wazuh Documentation - Cluster Configuration](https://documentation.wazuh.com/current/user-manual/manager/cluster.html)
+1. [[Wazuh Index Patterns|Wazuh Documentation - Wazuh Indexer Indices]]
+2. [[Wazuh Agent Enrollment|Wazuh Documentation - Agent Enrollment and Connection]]
+3. [[Wazuh Dashboard Configuration|Wazuh Documentation - Dashboard Configuration]]
+4. [[Elasticsearch ILM|Elasticsearch Documentation - Index Lifecycle Management]]
+5. [[Wazuh Agent API|Wazuh Documentation - Agent Monitoring API]]
+6. [[Wazuh Agent Management|Wazuh Documentation - Agent Management Interface]]
+7. [[Wazuh Cluster Configuration|Wazuh Documentation - Cluster Configuration]]
+
+#wazuh #elasticsearch #agent-monitoring #security-monitoring #opensearch #infrastructure-management #observability #keepalive #agent-health
