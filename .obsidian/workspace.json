@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+                "file": "logs/wazuh-statistics/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "refined-wazuh-statistics-logs"
+              "title": "README"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+                "file": "logs/wazuh-statistics/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for refined-wazuh-statistics-logs"
+              "title": "Backlinks for README"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+                "file": "logs/wazuh-statistics/README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from refined-wazuh-statistics-logs"
+              "title": "Outgoing links from README"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+                "file": "logs/wazuh-statistics/README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of refined-wazuh-statistics-logs"
+              "title": "Outline of README"
             }
           }
         ]
@@ -168,16 +168,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "8143ffd391e3db85",
+  "active": "77ba65063970df2f",
   "lastOpenFiles": [
+    "logs/wazuh-statistics/wazuh-logs.md",
+    "logs/wazuh-statistics/README.md",
     "logs/wazuh-monitoring/README.md",
     "logs/wazuh-monitoring",
     "logs/wazuh-alerts-archives/README.md",
-    "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
     "logs/wazuh-alerts-archives",
     "logs/wazuh-alerts",
     "logs/wazuh-logs.md",
-    "logs/wazuh-statistics/wazuh-logs.md",
     "logs/wazuh-statistics",
     "logs/wazuh-statistics.md",
     "logs/README.md",
