@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "logs/wazuh-statistics/README.md",
+                "file": "logs/wazuh-states-vulnerabilities/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "logs/wazuh-statistics/README.md",
+                "file": "logs/wazuh-states-vulnerabilities/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +113,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "logs/wazuh-statistics/README.md",
+                "file": "logs/wazuh-states-vulnerabilities/README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -142,7 +142,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "logs/wazuh-statistics/README.md",
+                "file": "logs/wazuh-states-vulnerabilities/README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -168,10 +168,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "77ba65063970df2f",
+  "active": "8143ffd391e3db85",
   "lastOpenFiles": [
-    "logs/wazuh-statistics/wazuh-logs.md",
     "logs/wazuh-statistics/README.md",
+    "logs/wazuh-states-vulnerabilities/README.md",
+    "logs/wazuh-states-vulnerabilities",
+    "logs/The wazuh-states-vulnerabilities",
+    "logs/wazuh-statistics/wazuh-logs.md",
     "logs/wazuh-monitoring/README.md",
     "logs/wazuh-monitoring",
     "logs/wazuh-alerts-archives/README.md",
