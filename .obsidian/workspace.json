@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
-                "mode": "preview",
+                "file": "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Wazuh Monitoring Indices"
+              "title": "Managing Wazuh Alert Indices in Elasticsearch & Opensearch"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Wazuh Monitoring Indices"
+              "title": "Backlinks for Managing Wazuh Alert Indices in Elasticsearch & Opensearch"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Wazuh Monitoring Indices"
+              "title": "Outgoing links from Managing Wazuh Alert Indices in Elasticsearch & Opensearch"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+                "file": "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Wazuh Monitoring Indices"
+              "title": "Outline of Managing Wazuh Alert Indices in Elasticsearch & Opensearch"
             }
           }
         ]
@@ -170,9 +170,10 @@
   },
   "active": "8143ffd391e3db85",
   "lastOpenFiles": [
+    "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
     "logs/wazuh-statistics/Wazuh Statistics Index.md",
     "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
-    "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
+    "logs/wazuh-statistics/wazuh-logs.md",
     "logs/wazuh-alerts-archives/Wazuh Alert and Archive Logs.md",
     "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
     "logs-management/indices-management",
@@ -185,7 +186,6 @@
     "Log Rotation.md",
     "logs/wazuh-states-vulnerabilities",
     "logs/The wazuh-states-vulnerabilities",
-    "logs/wazuh-statistics/wazuh-logs.md",
     "logs/wazuh-monitoring",
     "logs/wazuh-alerts-archives",
     "logs/wazuh-alerts",

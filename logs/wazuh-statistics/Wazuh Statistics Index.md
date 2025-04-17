@@ -1,25 +1,43 @@
+---
+title: Wazuh Statistics Index - Technical Documentation
+date: 2025-04-17
+tags:
+  - wazuh
+  - statistics
+  - performance-metrics
+  - monitoring
+  - elasticsearch
+  - system-health
+  - capacity-planning
+aliases:
+  - Wazuh Performance Metrics
+  - Wazuh Statistics Monitoring
+cssclass: technical-documentation
+---
+
 # Wazuh Statistics Index: Technical Documentation
 
 ## Executive Summary
 
-This technical document focuses exclusively on the `wazuh-statistics-*` index pattern within the Wazuh security platform. The statistics indices store critical performance metrics about Wazuh manager operations, providing essential visibility into system health, throughput, and resource utilization. This document details the precise mechanisms by which these statistics are generated, collected, stored, and utilized for operational monitoring and capacity planning.
+> [!SUMMARY]
+> This technical document focuses exclusively on the `wazuh-statistics-*` index pattern within the [[Wazuh]] security platform. The statistics indices store critical performance metrics about Wazuh manager operations, providing essential visibility into system health, throughput, and resource utilization. This document details the precise mechanisms by which these statistics are generated, collected, stored, and utilized for operational monitoring and capacity planning.
 
 ## Table of Contents
 
-1. [Introduction to Wazuh Statistics](#introduction-to-wazuh-statistics)
-2. [Statistics Collection Architecture](#statistics-collection-architecture)
-3. [Statistical Data Lifecycle](#statistical-data-lifecycle)
-4. [Index Structure and Schema](#index-structure-and-schema)
-5. [Statistics Index Management](#statistics-index-management)
-6. [Querying and Visualization](#querying-and-visualization)
-7. [Performance Considerations](#performance-considerations)
-8. [Security Implications](#security-implications)
-9. [Troubleshooting Statistics Collection](#troubleshooting-statistics-collection)
-10. [References](#references)
+1. [[#Introduction to Wazuh Statistics]]
+2. [[#Statistics Collection Architecture]]
+3. [[#Statistical Data Lifecycle]]
+4. [[#Index Structure and Schema]]
+5. [[#Statistics Index Management]]
+6. [[#Querying and Visualization]]
+7. [[#Performance Considerations]]
+8. [[#Security Implications]]
+9. [[#Troubleshooting Statistics Collection]]
+10. [[#References]]
 
 ## Introduction to Wazuh Statistics
 
-The `wazuh-statistics-*` index pattern stores operational metrics from Wazuh manager nodes. Unlike event or alert indices that store security-related data from monitored endpoints, the statistics indices exclusively store internal performance data about the Wazuh platform itself. This self-monitoring capability enables administrators to:
+The `wazuh-statistics-*` index pattern stores operational metrics from [[Wazuh Manager]] nodes. Unlike [[Wazuh Alert Indices|event or alert indices]] that store security-related data from monitored endpoints, the statistics indices exclusively store internal performance data about the Wazuh platform itself. This self-monitoring capability enables administrators to:
 
 - Monitor system health and performance in real-time
 - Identify processing bottlenecks before they impact security monitoring
@@ -87,9 +105,9 @@ flowchart TB
 ### Key Components
 
 1. **Service Daemons**
-   - **Analysisd**: Processes events and applies rules to generate alerts
-   - **Remoted**: Handles agent communication and message queueing
-   - **Authd**: Manages agent authentication and registration
+   - **[[Analysisd]]**: Processes events and applies rules to generate alerts
+   - **[[Remoted]]**: Handles agent communication and message queueing
+   - **[[Authd]]**: Manages agent authentication and registration
    - **Other Daemons**: Various supporting services (execd, monitord, etc.)
 
 2. **Statistics Generation**
@@ -100,16 +118,16 @@ flowchart TB
      - Example files: `wazuh-analysisd.state`, `wazuh-remoted.state`
 
 3. **Collection Mechanism**
-   - **Wazuh API**: RESTful interface exposing statistics data
-   - **Dashboard Statistics Job**: Scheduled task in Wazuh Dashboard
+   - **[[Wazuh API]]**: RESTful interface exposing statistics data
+   - **Dashboard Statistics Job**: Scheduled task in [[Wazuh Dashboard]]
      - Configured in Dashboard settings (`wazuh.yml`)
      - Runs every 5 minutes by default
      - Controlled by `cron.statistics.status` and `cron.statistics.interval`
 
 4. **Storage Components**
-   - **Statistics Index**: `wazuh-statistics-*` pattern in Elasticsearch
+   - **Statistics Index**: `wazuh-statistics-*` pattern in [[Elasticsearch]]
    - **Index Template**: Defines mapping for statistics fields
-   - **ILM Policy**: Manages index lifecycle (optional)
+   - **[[ILM Policy]]**: Manages index lifecycle (optional)
 
 ## Statistical Data Lifecycle
 
@@ -148,30 +166,38 @@ sequenceDiagram
    - Each Wazuh daemon maintains internal counters for its operations
    - Every 5 seconds, these counters are written to state files
    - The state interval is configurable via `internal_options.conf`:
-     ```
-     # Default state interval (5 seconds)
-     analysisd.state_interval=5
-     remoted.state_interval=5
-     ```
+
+     > [!EXAMPLE] Internal Options Configuration
+     > ```
+     > # Default state interval (5 seconds)
+     > analysisd.state_interval=5
+     > remoted.state_interval=5
+     > ```
 
 2. **Statistics Collection (5-minute cycle)**
    - The Wazuh Dashboard runs a scheduled job every 5 minutes
    - This job is configured in the Dashboard's `wazuh.yml` config:
-     ```yaml
-     cron:
-       statistics:
-         status: true
-         interval: 0 */5 * * * *  # Every 5 minutes
-         index:
-           name: wazuh-statistics-*
-           creation: w  # Weekly rotation
-           shards: 1
-           replicas: 0
-     ```
+
+     > [!EXAMPLE] Dashboard Statistics Configuration
+     > ```yaml
+     > cron:
+     >   statistics:
+     >     status: true
+     >     interval: 0 */5 * * * *  # Every 5 minutes
+     >     index:
+     >       name: wazuh-statistics-*
+     >       creation: w  # Weekly rotation
+     >       shards: 1
+     >       replicas: 0
+     > ```
+
    - The job calls the Wazuh API endpoint:
-     ```
-     GET /manager/stats
-     ```
+
+     > [!INFO]
+     > ```
+     > GET /manager/stats
+     > ```
+
    - For clustered deployments, it queries each configured node
 
 3. **Data Transformation**
@@ -285,39 +311,40 @@ Statistics for other components like `authd`, `execd`, `monitord`, etc. follow s
 
 ### Sample Document
 
-```json
-{
-  "@timestamp": "2025-04-17T06:20:00.000Z",
-  "manager": "wazuh-master-1",
-  "cluster": {
-    "name": "wazuh-cluster",
-    "node": "master"
-  },
-  "analysisd": {
-    "events_received": 138283,
-    "events_processed": 112252,
-    "events_dropped": 0,
-    "alerts_written": 6707,
-    "event_queue_usage": 0.15,
-    "syscheck_queue_usage": 0.02,
-    "syscollector_queue_usage": 0.00,
-    "rootcheck_queue_usage": 0.00,
-    "sca_queue_usage": 0.08,
-    "rule_matching_queue_usage": 0.12,
-    "max_eps": 876
-  },
-  "remoted": {
-    "queue_size": 131072,
-    "queue_usage": 0.04,
-    "tcp_sessions": 130,
-    "evt_count": 19097,
-    "ctrl_msg_count": 3444,
-    "discarded_count": 0,
-    "recv_bytes": 435879,
-    "sent_bytes": 127543
-  }
-}
-```
+> [!EXAMPLE] Statistics Document
+> ```json
+> {
+>   "@timestamp": "2025-04-17T06:20:00.000Z",
+>   "manager": "wazuh-master-1",
+>   "cluster": {
+>     "name": "wazuh-cluster",
+>     "node": "master"
+>   },
+>   "analysisd": {
+>     "events_received": 138283,
+>     "events_processed": 112252,
+>     "events_dropped": 0,
+>     "alerts_written": 6707,
+>     "event_queue_usage": 0.15,
+>     "syscheck_queue_usage": 0.02,
+>     "syscollector_queue_usage": 0.00,
+>     "rootcheck_queue_usage": 0.00,
+>     "sca_queue_usage": 0.08,
+>     "rule_matching_queue_usage": 0.12,
+>     "max_eps": 876
+>   },
+>   "remoted": {
+>     "queue_size": 131072,
+>     "queue_usage": 0.04,
+>     "tcp_sessions": 130,
+>     "evt_count": 19097,
+>     "ctrl_msg_count": 3444,
+>     "discarded_count": 0,
+>     "recv_bytes": 435879,
+>     "sent_bytes": 127543
+>   }
+> }
+> ```
 
 ## Statistics Index Management
 
@@ -353,15 +380,17 @@ The statistics indices are created and managed as follows:
    - The Dashboard's statistics job creates indices automatically
    - Index naming convention: `wazuh-statistics-YYYY.Ww`
    - Configuration options in `wazuh.yml`:
-     ```yaml
-     cron:
-       statistics:
-         index:
-           name: wazuh-statistics-*
-           creation: w  # w=weekly, d=daily, m=monthly
-           shards: 1    # Number of primary shards
-           replicas: 0  # Number of replica shards
-     ```
+
+     > [!NOTE] Index Configuration
+     > ```yaml
+     > cron:
+     >   statistics:
+     >     index:
+     >       name: wazuh-statistics-*
+     >       creation: w  # w=weekly, d=daily, m=monthly
+     >       shards: 1    # Number of primary shards
+     >       replicas: 0  # Number of replica shards
+     > ```
 
 2. **Index Template**
    - Applied automatically to new indices
@@ -372,34 +401,37 @@ The statistics indices are created and managed as follows:
 3. **Index Lifecycle Management (Optional)**
    - Can be configured to automatically manage retention
    - Example ILM policy:
-     ```json
-     {
-       "policy": {
-         "phases": {
-           "hot": {
-             "actions": {}
-           },
-           "delete": {
-             "min_age": "30d",
-             "actions": {
-               "delete": {}
-             }
-           }
-         }
-       }
-     }
-     ```
+
+     > [!EXAMPLE] ILM Policy
+     > ```json
+     > {
+     >   "policy": {
+     >     "phases": {
+     >       "hot": {
+     >         "actions": {}
+     >       },
+     >       "delete": {
+     >         "min_age": "30d",
+     >         "actions": {
+     >           "delete": {}
+     >         }
+     >       }
+     >     }
+     >   }
+     > }
+     > ```
 
 ### Storage Requirements
 
-Statistics indices have minimal storage requirements compared to event and alert indices:
-
-- Each document size: ~2-5 KB
-- Documents per day: 288 (at 5-minute intervals)
-- Typical weekly index size: 5-10 MB
-- Annual storage for statistics: ~0.5-1 GB
-
-This small footprint makes long-term retention feasible without significant storage costs.
+> [!INFO]
+> Statistics indices have minimal storage requirements compared to event and alert indices:
+>
+> - Each document size: ~2-5 KB
+> - Documents per day: 288 (at 5-minute intervals)
+> - Typical weekly index size: 5-10 MB
+> - Annual storage for statistics: ~0.5-1 GB
+>
+> This small footprint makes long-term retention feasible without significant storage costs.
 
 ## Querying and Visualization
 
@@ -436,84 +468,90 @@ flowchart TB
 For custom analysis or integration with external monitoring systems, you can query the indices directly via the Elasticsearch API:
 
 1. **Basic Query**
-   ```json
-   GET wazuh-statistics-*/_search
-   {
-     "query": {
-       "range": {
-         "@timestamp": {
-           "gte": "now-1d",
-           "lte": "now"
-         }
-       }
-     },
-     "sort": [
-       { "@timestamp": "desc" }
-     ],
-     "size": 10
-   }
-   ```
+
+   > [!EXAMPLE] Basic Search Query
+   > ```json
+   > GET wazuh-statistics-*/_search
+   > {
+   >   "query": {
+   >     "range": {
+   >       "@timestamp": {
+   >         "gte": "now-1d",
+   >         "lte": "now"
+   >       }
+   >     }
+   >   },
+   >   "sort": [
+   >     { "@timestamp": "desc" }
+   >   ],
+   >   "size": 10
+   > }
+   > ```
 
 2. **Aggregation Query (Events per Hour)**
-   ```json
-   GET wazuh-statistics-*/_search
-   {
-     "size": 0,
-     "query": {
-       "range": {
-         "@timestamp": {
-           "gte": "now-1d",
-           "lte": "now"
-         }
-       }
-     },
-     "aggs": {
-       "events_over_time": {
-         "date_histogram": {
-           "field": "@timestamp",
-           "calendar_interval": "hour"
-         },
-         "aggs": {
-           "avg_events": {
-             "avg": {
-               "field": "analysisd.events_received"
-             }
-           }
-         }
-       }
-     }
-   }
-   ```
+
+   > [!EXAMPLE] Events Per Hour Aggregation
+   > ```json
+   > GET wazuh-statistics-*/_search
+   > {
+   >   "size": 0,
+   >   "query": {
+   >     "range": {
+   >       "@timestamp": {
+   >         "gte": "now-1d",
+   >         "lte": "now"
+   >       }
+   >     }
+   >   },
+   >   "aggs": {
+   >     "events_over_time": {
+   >       "date_histogram": {
+   >         "field": "@timestamp",
+   >         "calendar_interval": "hour"
+   >       },
+   >       "aggs": {
+   >         "avg_events": {
+   >           "avg": {
+   >             "field": "analysisd.events_received"
+   >           }
+   >         }
+   >       }
+   >     }
+   >   }
+   > }
+   > ```
 
 3. **Alert Rate by Node**
-   ```json
-   GET wazuh-statistics-*/_search
-   {
-     "size": 0,
-     "query": {
-       "range": {
-         "@timestamp": {
-           "gte": "now-1d",
-           "lte": "now"
-         }
-       }
-     },
-     "aggs": {
-       "by_node": {
-         "terms": {
-           "field": "manager"
-         },
-         "aggs": {
-           "avg_alerts": {
-             "avg": {
-               "field": "analysisd.alerts_written"
-             }
-           }
-         }
-       }
-     }
-   }
-   ```
+
+   > [!EXAMPLE] Alert Rate by Node
+   > ```json
+   > GET wazuh-statistics-*/_search
+   > {
+   >   "size": 0,
+   >   "query": {
+   >     "range": {
+   >       "@timestamp": {
+   >         "gte": "now-1d",
+   >         "lte": "now"
+   >       }
+   >     }
+   >   },
+   >   "aggs": {
+   >     "by_node": {
+   >       "terms": {
+   >         "field": "manager"
+   >       },
+   >       "aggs": {
+   >         "avg_alerts": {
+   >           "avg": {
+   >             "field": "analysisd.alerts_written"
+   >           }
+   >         }
+   >       }
+   >     }
+   >   }
+   > }
+   > ```
 
 ## Performance Considerations
 
@@ -554,22 +592,23 @@ flowchart TB
     class E red
 ```
 
-For optimal performance:
-
-1. **Collection Interval**
-   - Default (5 minutes) is suitable for most deployments
-   - Reduce frequency for very large clusters or resource-constrained environments
-   - Configuration: `cron.statistics.interval` in `wazuh.yml`
-
-2. **Index Settings**
-   - Maintain default of 1 shard for statistics indices
-   - Increase replicas (0→1) only if high availability is required
-   - Configuration: `cron.statistics.index.shards/replicas` in `wazuh.yml`
-
-3. **Retention Policy**
-   - Implement ILM to automatically manage older indices
-   - Recommended retention: 30-90 days for statistics
-   - Long-term trends can be preserved through periodic snapshots
+> [!TIP]
+> For optimal performance:
+>
+> 1. **Collection Interval**
+>    - Default (5 minutes) is suitable for most deployments
+>    - Reduce frequency for very large clusters or resource-constrained environments
+>    - Configuration: `cron.statistics.interval` in `wazuh.yml`
+>
+> 2. **Index Settings**
+>    - Maintain default of 1 shard for statistics indices
+>    - Increase replicas (0→1) only if high availability is required
+>    - Configuration: `cron.statistics.index.shards/replicas` in `wazuh.yml`
+>
+> 3. **Retention Policy**
+>    - Implement ILM to automatically manage older indices
+>    - Recommended retention: 30-90 days for statistics
+>    - Long-term trends can be preserved through periodic snapshots
 
 ## Security Implications
 
@@ -604,18 +643,20 @@ flowchart TB
 
 2. **Access Control**
    - Restrict API access to authenticated services
-   - Implement role-based access to statistics indices
+   - Implement [[Role-Based Access Control|role-based access]] to statistics indices
    - Example Elasticsearch role definition:
-     ```json
-     {
-       "indices": [
-         {
-           "names": ["wazuh-statistics-*"],
-           "privileges": ["read"]
-         }
-       ]
-     }
-     ```
+
+     > [!EXAMPLE] Elasticsearch Role for Statistics Access
+     > ```json
+     > {
+     >   "indices": [
+     >     {
+     >       "names": ["wazuh-statistics-*"],
+     >       "privileges": ["read"]
+     >     }
+     >   ]
+     > }
+     > ```
 
 3. **Integrity Protection**
    - Statistics data should be integrity-protected
@@ -629,91 +670,111 @@ Common issues with statistics collection and their solutions:
 ### Collection Issues
 
 1. **Missing Statistics**
-   ```
-   Symptom: No new documents in wazuh-statistics-* indices
 
-   Troubleshooting Steps:
-   1. Check cron job status in wazuh.yml:
-      $ grep -A 10 "statistics" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
-
-   2. Verify API connectivity:
-      $ curl -k -X GET "https://localhost:55000/manager/stats" \
-        -H "Authorization: Bearer $TOKEN"
-
-   3. Check for errors in dashboard logs:
-      $ tail -f /var/log/wazuh-dashboard/opensearch-dashboards.log
-
-   Common Solutions:
-   - Enable statistics collection (cron.statistics.status: true)
-   - Fix API authentication issues
-   - Restart dashboard service
-   ```
+   > [!FAILURE]
+   > **Symptom**: No new documents in wazuh-statistics-* indices
+   >
+   > **Troubleshooting Steps**:
+   > 1. Check cron job status in wazuh.yml:
+   >    ```bash
+   >    $ grep -A 10 "statistics" /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
+   >    ```
+   >
+   > 2. Verify API connectivity:
+   >    ```bash
+   >    $ curl -k -X GET "https://localhost:55000/manager/stats" \
+   >      -H "Authorization: Bearer $TOKEN"
+   >    ```
+   >
+   > 3. Check for errors in dashboard logs:
+   >    ```bash
+   >    $ tail -f /var/log/wazuh-dashboard/opensearch-dashboards.log
+   >    ```
+   >
+   > **Common Solutions**:
+   > - Enable statistics collection (cron.statistics.status: true)
+   > - Fix API authentication issues
+   > - Restart dashboard service
 
 2. **Incomplete Statistics**
-   ```
-   Symptom: Some fields missing in statistics documents
 
-   Troubleshooting Steps:
-   1. Check daemon state files:
-      $ cat /var/ossec/var/run/wazuh-analysisd.state
-      $ cat /var/ossec/var/run/wazuh-remoted.state
-
-   2. Verify API response completeness:
-      $ curl -k -X GET "https://localhost:55000/manager/stats" \
-        -H "Authorization: Bearer $TOKEN" | jq
-
-   Common Solutions:
-   - Restart problematic daemon
-   - Update to latest Wazuh version
-   - Check permissions on state files
-   ```
+   > [!FAILURE]
+   > **Symptom**: Some fields missing in statistics documents
+   >
+   > **Troubleshooting Steps**:
+   > 1. Check daemon state files:
+   >    ```bash
+   >    $ cat /var/ossec/var/run/wazuh-analysisd.state
+   >    $ cat /var/ossec/var/run/wazuh-remoted.state
+   >    ```
+   >
+   > 2. Verify API response completeness:
+   >    ```bash
+   >    $ curl -k -X GET "https://localhost:55000/manager/stats" \
+   >      -H "Authorization: Bearer $TOKEN" | jq
+   >    ```
+   >
+   > **Common Solutions**:
+   > - Restart problematic daemon
+   > - Update to latest Wazuh version
+   > - Check permissions on state files
 
 ### Query Issues
 
 1. **No Data in Visualizations**
-   ```
-   Symptom: Empty graphs in Wazuh Dashboard statistics section
 
-   Troubleshooting Steps:
-   1. Verify indices exist:
-      $ curl -X GET "https://localhost:9200/_cat/indices/wazuh-statistics-*?v" \
-        -u elastic:password
-
-   2. Check documents count:
-      $ curl -X GET "https://localhost:9200/wazuh-statistics-*/_count" \
-        -u elastic:password
-
-   3. Verify time range in dashboard
-
-   Common Solutions:
-   - Adjust time range to match existing data
-   - Check index pattern configuration in Kibana
-   - Verify field mappings in index template
-   ```
+   > [!FAILURE]
+   > **Symptom**: Empty graphs in Wazuh Dashboard statistics section
+   >
+   > **Troubleshooting Steps**:
+   > 1. Verify indices exist:
+   >    ```bash
+   >    $ curl -X GET "https://localhost:9200/_cat/indices/wazuh-statistics-*?v" \
+   >      -u elastic:password
+   >    ```
+   >
+   > 2. Check documents count:
+   >    ```bash
+   >    $ curl -X GET "https://localhost:9200/wazuh-statistics-*/_count" \
+   >      -u elastic:password
+   >    ```
+   >
+   > 3. Verify time range in dashboard
+   >
+   > **Common Solutions**:
+   > - Adjust time range to match existing data
+   > - Check index pattern configuration in Kibana
+   > - Verify field mappings in index template
 
 2. **Performance Degradation**
-   ```
-   Symptom: Slow queries or dashboard loading
 
-   Troubleshooting Steps:
-   1. Check index size and document count:
-      $ curl -X GET "https://localhost:9200/_cat/indices/wazuh-statistics-*?v&h=index,docs.count,store.size" \
-        -u elastic:password
-
-   2. Review shard allocation:
-      $ curl -X GET "https://localhost:9200/_cat/shards?v&index=wazuh-statistics-*" \
-        -u elastic:password
-
-   Common Solutions:
-   - Implement index lifecycle policies
-   - Optimize number of shards (typically 1 is sufficient)
-   - Increase collection interval if too many documents
-   ```
+   > [!FAILURE]
+   > **Symptom**: Slow queries or dashboard loading
+   >
+   > **Troubleshooting Steps**:
+   > 1. Check index size and document count:
+   >    ```bash
+   >    $ curl -X GET "https://localhost:9200/_cat/indices/wazuh-statistics-*?v&h=index,docs.count,store.size" \
+   >      -u elastic:password
+   >    ```
+   >
+   > 2. Review shard allocation:
+   >    ```bash
+   >    $ curl -X GET "https://localhost:9200/_cat/shards?v&index=wazuh-statistics-*" \
+   >      -u elastic:password
+   >    ```
+   >
+   > **Common Solutions**:
+   > - Implement index lifecycle policies
+   > - Optimize number of shards (typically 1 is sufficient)
+   > - Increase collection interval if too many documents
 
 ## References
 
-1. [Wazuh Documentation - Index Pattern Reference](https://documentation.wazuh.com/current/user-manual/elasticsearch/index.html)
-2. [Wazuh Documentation - Manager Statistics API](https://documentation.wazuh.com/current/user-manual/api/reference.html#statistics)
-3. [Wazuh Documentation - Dashboard Configuration](https://documentation.wazuh.com/current/user-manual/wazuh-dashboard/config-file.html)
-4. [Elasticsearch Documentation - Index Management](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-management.html)
-5. [Wazuh Documentation - Performance Tuning](https://documentation.wazuh.com/current/user-manual/manager/performance.html)
+1. [[Wazuh Index Patterns|Wazuh Documentation - Index Pattern Reference]]
+2. [[Wazuh Statistics API|Wazuh Documentation - Manager Statistics API]]
+3. [[Wazuh Dashboard Configuration|Wazuh Documentation - Dashboard Configuration]]
+4. [[Elasticsearch Index Management|Elasticsearch Documentation - Index Management]]
+5. [[Wazuh Performance Tuning|Wazuh Documentation - Performance Tuning]]
+
+#wazuh #elasticsearch #statistics #performance-monitoring #metrics #system-health #opensearch #index-management #observability
