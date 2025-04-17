@@ -1,1 +1,13 @@
-{}
+{
+  "accentColor": "#3574f0",
+  "theme": "system",
+  "cssTheme": "",
+  "interfaceFontFamily": "",
+  "textFontFamily": "",
+  "monospaceFontFamily": "",
+  "baseFontSize": 16,
+  "translucency": false,
+  "nativeMenus": false,
+  "showViewHeader": true,
+  "enabledCssSnippets": []
+}

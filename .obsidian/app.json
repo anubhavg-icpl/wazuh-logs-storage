@@ -1,1 +1,23 @@
-{}
+{
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "showLineNumber": true,
+  "spellcheck": true,
+  "readableLineLength": false,
+  "strictLineBreaks": true,
+  "showFrontmatter": true,
+  "foldHeading": true,
+  "foldIndent": true,
+  "defaultViewMode": "preview",
+  "showUnsupportedFiles": true,
+  "useMarkdownLinks": false,
+  "newLinkFormat": "shortest",
+  "attachmentFolderPath": "assets",
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
+}
