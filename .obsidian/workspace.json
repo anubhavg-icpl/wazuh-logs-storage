@@ -170,6 +170,8 @@
   },
   "active": "8143ffd391e3db85",
   "lastOpenFiles": [
+    "logs/wazuh-alerts-archives/README.md",
+    "logs/wazuh-alerts-archives",
     "logs/wazuh-alerts",
     "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
     "logs/wazuh-logs.md",
