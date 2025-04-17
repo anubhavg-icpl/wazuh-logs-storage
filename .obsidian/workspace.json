@@ -11,10 +11,14 @@
             "id": "8143ffd391e3db85",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "refined-wazuh-statistics-logs"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for refined-wazuh-statistics-logs"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from refined-wazuh-statistics-logs"
             }
           },
           {
@@ -136,12 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of refined-wazuh-statistics-logs"
             }
           }
         ]
@@ -162,5 +169,15 @@
     }
   },
   "active": "8143ffd391e3db85",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "logs/wazuh-alerts",
+    "logs/wazuh-statistics/refined-wazuh-statistics-logs.md",
+    "logs/wazuh-logs.md",
+    "logs/wazuh-statistics/wazuh-logs.md",
+    "logs/wazuh-statistics",
+    "logs/wazuh-statistics.md",
+    "logs/README.md",
+    "logs/wazuh-statics",
+    "logs"
+  ]
 }
