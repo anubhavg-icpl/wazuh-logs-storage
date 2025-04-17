@@ -11,10 +11,14 @@
             "id": "8143ffd391e3db85",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Wazuh Statistics Index"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Wazuh Statistics Index"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Wazuh Statistics Index"
             }
           },
           {
@@ -136,12 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "logs/wazuh-statistics/Wazuh Statistics Index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Wazuh Statistics Index"
             }
           }
         ]
@@ -163,10 +170,17 @@
   },
   "active": "8143ffd391e3db85",
   "lastOpenFiles": [
-    "logs/wazuh-statistics/Wazuh Statistics Index.md",
+    "logs-management/indices-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
+    "logs-management/indices-management",
+    "logs-management/Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
+    "logs-management/Managing Wazuh Alert Indices in Elasticsearch /Managing Wazuh Alert Indices in Elasticsearch & Opensearch.md",
+    "logs-management/Managing Wazuh Alert Indices in Elasticsearch / Opensearch.md",
+    "logs-management/Managing Wazuh Alert Indices in Elasticsearch ",
+    "logs-management",
     "logs/wazuh-states-vulnerabilities/Wazuh Vulnerability States Indices.md",
     "logs/wazuh-monitoring/Wazuh Monitoring Indices.md",
     "logs/wazuh-alerts-archives/Wazuh Alert and Archive Logs.md",
+    "logs/wazuh-statistics/Wazuh Statistics Index.md",
     "README.md",
     "Log Rotation.md",
     "logs/wazuh-states-vulnerabilities",
@@ -179,7 +193,6 @@
     "logs/wazuh-statistics",
     "logs/wazuh-statistics.md",
     "logs/README.md",
-    "logs/wazuh-statics",
-    "logs"
+    "logs/wazuh-statics"
   ]
 }
